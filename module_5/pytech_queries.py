@@ -1,7 +1,7 @@
 """ 
     Title: pytech_queries.py
-    Author: Professor Krasso
-    Date: 10 July 2020
+    Author: Chee Her
+    Date: 11/12/2021
     Description: Test program for querying the students collection.
 """
 
@@ -9,7 +9,7 @@
 from pymongo import MongoClient
 
 # MongoDB connection string 
-url = "mongodb+srv://admin:admin@cluster0.rsnru.mongodb.net/pytech?retryWrites=true&w=majority"
+url = "mongodb+srv://admin:admin@cluster0.c9khq.mongodb.net/pytech?retryWrites=true&w=majority"
 
 # connect to the MongoDB cluster 
 client = MongoClient(url)
