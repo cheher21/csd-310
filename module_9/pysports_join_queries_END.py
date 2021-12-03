@@ -1,7 +1,7 @@
 """ 
     Title: pysports_join_queries.py
-    Author: Chee Her
-    Date: 12/3/2021
+    Author: Professor Krasso
+    Date: 16 July 2020
     Description: Test program for joining the player and team tables
 """
 
@@ -21,26 +21,24 @@ config = {
 try:
     """ try/catch block for handling potential MySQL database errors """ 
 
-    # Connects to the database 
-    db = mysql.connector.connect(**config) 
+    db = mysql.connector.connect(**config) # connect to the pysports database 
 
     cursor = db.cursor()
 
-    # INNER JOIN query 
+    # inner join query 
     cursor.execute("SELECT player_id, first_name, last_name, team_name FROM player INNER JOIN team ON player.team_id = team.team_id")
 
-    # Retrieves the results of the players
+    # get the results from the cursor object 
     players = cursor.fetchall()
 
     print("\n  -- DISPLAYING PLAYER RECORDS --")
     
-    # For each player in the players table, display the players first name, last name and team name. 
+    # iterate over the player data set and display the results 
     for player in players:
         print("  Player ID: {}\n  First Name: {}\n  Last Name: {}\n  Team Name: {}\n".format(player[0], player[1], player[2], player[3]))
 
     input("\n\n  Press any key to continue... ")
 
-# Exception Handling
 except mysql.connector.Error as err:
     """ handle errors """ 
 
