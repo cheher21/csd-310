@@ -1,7 +1,7 @@
 """ 
     Title: pysports_update_and_delete.py
-    Author: Chee Her
-    Date: 12/3/2021
+    Author: Professor Krasso
+    Date: 16 July 2020
     Description: Test program for inserting, updating, and deleting records from the pysports database
 """
 
@@ -9,7 +9,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 
-# Connect to the database
+
 """ database config object """
 config = {
     "user": "pysports_user",
@@ -45,12 +45,12 @@ try:
     # get the cursor object
     cursor = db.cursor()
 
-    # Insert new player query 
+    # insert player query 
     add_player = ("INSERT INTO player(first_name, last_name, team_id)"
                  "VALUES(%s, %s, %s)")
 
     # player data fields 
-    player_data = ("Saruman", "The White", 1)
+    player_data = ("Smeagol", "Shire Folk", 1)
 
     # insert a new player record
     cursor.execute(add_player, player_data)
@@ -61,8 +61,8 @@ try:
     # show all records in the player table 
     show_players(cursor, "DISPLAYING PLAYERS AFTER INSERT")
 
-    # update the newly inserted record to show "Saruman The Traitor" who sided with the dark side in the Two Towers
-    update_player = ("UPDATE player SET team_id = 2, first_name = 'Saruman', last_name = 'The Traitor' WHERE first_name = 'Saruman'")
+    # update the newly inserted record 
+    update_player = ("UPDATE player SET team_id = 2, first_name = 'Gollum', last_name = 'Ring Stealer' WHERE first_name = 'Smeagol'")
 
     # execute the update query
     cursor.execute(update_player)
@@ -71,7 +71,7 @@ try:
     show_players(cursor, "DISPLAYING PLAYERS AFTER UPDATE")
 
     # delete query 
-    delete_player = ("DELETE FROM player WHERE first_name = 'Saruman'")
+    delete_player = ("DELETE FROM player WHERE first_name = 'Gollum'")
 
     cursor.execute(delete_player)
 
@@ -80,7 +80,6 @@ try:
 
     input("\n\n  Press any key to continue... ")
 
-# Exception Handling
 except mysql.connector.Error as err:
     """ handle errors """ 
 
