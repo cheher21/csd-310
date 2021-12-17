@@ -22,7 +22,7 @@ from mysql.connector import errorcode
 """Config Database"""
 config = {
     "user": "whatabook_user",
-    "password": "MySQL8IsGreat!",
+    "password": "MySQL8IsGreat",
     "host": "127.0.0.1",
     "database": "whatabook",
     "raise_on_warnings": True
@@ -33,12 +33,12 @@ config = {
 """Show Menu"""
 def show_menu():
     print("\nMain Menu")
-    print("1)View Books\n2)View Store Locations\n3)My Account\n4)Wishlist Menu\n5)Exit Program")
+    print("1. View Books\n2. View Store Locations\n3. My Account\n4. Exit Program")
 
     try:
-        option = int(input("Enter book title"))
+        choice = int(input("Enter a number from the menu list above from 1 - 4:     "))
 
-        return option
+        return choice
     except ValueError:
         print("\nNot a valid number.....Exit\n")
 
@@ -68,13 +68,15 @@ def show_locations(_cursor):
     # Loops through the stores locations and displays it
     for location in locations:
         print("Locale: {}\n".format(location[1]))
+        # print("Locale: {}\n {}\nOpen Hours {}\nClosing Hours {}".format(location[1]))
+
 
 """Validates the User"""
 def validate_user():
     """Validating the users ID"""
 
     try:
-        user_id = int(input("\nEnter customer id"))
+        user_id = int(input("\nEnter customer id:   "))
 
         if user_id < 0 or user_id > 3:
             print("\nUser ID not a valid ID...Exiting\n")
@@ -91,26 +93,26 @@ def show_account_menu():
     try:
         print("\nCustomer Menu")
         print("1)Wishlist\n2)Add Book\n3)Main Menu")
-        account_info = int(input("Enter a wishlist"))
-        return account_info
+        account_option = int(input("Enter a wishlist:   "))
+        return account_option
     except ValueError:
         print("\nNot a valid number...Exiting\n")
         sys.exit(0)
 
 """Shows the Wishlist"""
-def show_wishlist(_cursor, _user_info):
+def show_wishlist(_cursor, _user_id):
     _cursor.execute("SELECT user.user_id, user.first_name, user.last_name, book.book_id, book.book_name, book.author " + 
                     "FROM wishlist " + 
                     "INNER JOIN user ON wishlist.user_id = user.user_id " + 
                     "INNER JOIN book ON wishlist.book_id = book.book_id " + 
-                    "WHERE user.user_id = {}".format(_user_info))
+                    "WHERE user.user_id = {}".format(_user_id))
     
     wishlist = _cursor.fetchall()
 
     print("\nDisplay the Wishlist Items")
 
     for book in wishlist:
-        print("Book Name: {}\n      Author: {}\n".format(book[2], book[3]))
+        print("Book Name: {}\n      Author: {}\n".format(book[4], book[5]))
 
 """Shows the books on the wishlist"""
 def show_books_to_add(_cursor, _user_id):
@@ -127,14 +129,15 @@ def show_books_to_add(_cursor, _user_id):
     print("\nDisplays All Available Books")
 
     for book in books_to_add:
-        print("Bokk ID: {}\n    Book Name: {}\n".format(book[0], book[1]))
+        print("Book ID: {}\n    Book Name: {}\n".format(book[0], book[1]))
 
 """Adds the book from the wishlist"""
 def add_book_to_wishlist(_cursor, _user_id, _book_id):
     _cursor.execute("INSERT INTO wishlist(user_id, book_id) VALUES({}, {})".format(_user_id, _book_id))
 
-"""Try and catch to handle errors"""
+
 try: 
+    """Try and catch to handle errors"""
     # Connects to the WhatABook database
     db = mysql.connector.connect(**config)
 
@@ -145,21 +148,21 @@ try:
     print("\nWelcome to the WhatABook")
 
     # Shows the main menu to the user
-    user_section = show_menu()
+    user_selection = show_menu()
 
     # User selection is not 4
-    while user_section != 4:
+    while user_selection != 4:
 
         # User selection is 1, the show book menu is be shown
-        if user_section == 1:
+        if user_selection == 1:
             show_books(cursor)
 
         # User selection is 2, the show locations menu is shown
-        if user_section == 2:
+        if user_selection == 2:
             show_locations(cursor)
 
         # User selection is 3, will validate user
-        if user_section == 3:
+        if user_selection == 3:
             my_user_id = validate_user()
             account_option = show_account_menu()
 
@@ -177,7 +180,7 @@ try:
                     show_books_to_add(cursor, my_user_id)
 
                     # Gets the book by id
-                    book_id = int(input("\nEnter the id of the book you want to add:"))
+                    book_id = int(input("\nEnter the id of the book you want to add:    "))
 
                     # Adds the book to the wishlist
                     add_book_to_wishlist(cursor, my_user_id, book_id)
@@ -195,15 +198,15 @@ try:
                 # Shows the user menu
                 account_option = show_account_menu()
 
-            # If the user selects a number less than 0 and greater than 4. Will be invalid number
-            if user_section < 0 or user_section > 4:
-                print("\nNot a valid option. Please try again!")
+        # If the user selects a number less than 0 and greater than 4. Will be invalid number
+        if user_selection < 0 or user_selection > 4:
+            print("\nNot a valid option. Please try again!")
 
-            # Show the menu
-            user_section = show_menu()
+        # Show the menu
+        user_selection = show_menu()
 
-        # Displays that the program is exiting
-        print("\n\nProgram Exiting")
+    # Displays that the program is exiting
+    print("\n\nProgram Exiting....")
 
 # Handles errors
 except mysql.connector.Error as err:
