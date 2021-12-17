@@ -117,17 +117,17 @@ INSERT INTO user(first_name, last_name)
 INSERT INTO wishlist(user_id, book_id) 
     VALUES (
         (SELECT user_id FROM user WHERE first_name = 'John'), 
-        (SELECT book_id FROM book WHERE book_name = 'The Little Prince')
+        (SELECT book_id FROM book WHERE book_name = 'The Lion, the Witch and the Wardrobe')
     );
 
 INSERT INTO wishlist(user_id, book_id)
     VALUES (
         (SELECT user_id FROM user WHERE first_name = 'James'),
-        (SELECT book_id FROM book WHERE book_name = 'The Da Vinci Code')
+        (SELECT book_id FROM book WHERE book_name = 'Harry Potter and the Philosophers Stone')
     );
 
 INSERT INTO wishlist(user_id, book_id)
     VALUES (
         (SELECT user_id FROM user WHERE first_name = 'Katniss'),
-        (SELECT book_id FROM book WHERE book_name = 'The Hobbit')
+        (SELECT book_id FROM book WHERE book_name = 'Dream of the Red Chamber')
     );
