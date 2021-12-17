@@ -82,7 +82,7 @@ INSERT INTO book(book_name, author, details)
     VALUES('The Little Prince', 'Antonine de Saint-Exupery', "Follows a young prince who visits various planets in space");
 
 INSERT INTO book(book_name, author, details)
-    VALUES('Dream of the Red Chamber', 'Dream of the Red Chamber', "A Chinese literatures Four Great Classical Novels");
+    VALUES('Dream of the Red Chamber', 'Cao Xueqin', "A Chinese literatures Four Great Classical Novels");
 
 INSERT INTO book(book_name, author, details)
     VALUES('And Then There Were None', 'Agatha Christie', "Story of ten lines of children counting rhyme");
