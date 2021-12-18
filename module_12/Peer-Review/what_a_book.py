@@ -22,7 +22,7 @@ from mysql.connector import errorcode
 """Config Database"""
 config = {
     "user": "whatabook_user",
-    "password": "MySQL8IsGreat!",
+    "password": "MySQL8IsGreat",
     "host": "127.0.0.1",
     "database": "whatabook",
     "raise_on_warnings": True
