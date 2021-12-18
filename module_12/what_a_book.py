@@ -55,7 +55,7 @@ def show_books(_cursor):
 
     # Loops through the data and displays it
     for book in books:
-        print("Book Name: {}\n Author: {}\nDetails {}\n".format(book[0], book[1], book[2]))
+        print("Book Name: {}\nAuthor: {}\nDetails: {}\n".format(book[1], book[2], book[3]))
 
 """Shows the Store Locations"""
 def show_locations(_cursor):
@@ -130,6 +130,28 @@ def show_books_to_add(_cursor, _user_id):
 
     for book in books_to_add:
         print("Book ID: {}\n    Book Name: {}\n".format(book[0], book[1]))
+
+    # Gets the book ID with error checking
+    try:
+        enteredID = int(input("\nEnter the ID of the book to be add:    "))
+    # Return if a non number is entered
+    except ValueError:
+        print("Book is Invalid. Please try again...")
+        return
+    
+    # Flag for if book is found
+    bookIsValid = False
+
+    # Loop through book list to find selected book
+    for book in books_to_add:
+        if(book[0] == enteredID):
+            cursor.execute("INSERT INTO wishlist(user_id, book_id) VALUES((SELECT user_id FROM user WHERE user_id = {}), (SELECT book_id FROM book WHERE book_id = {}))".format(_user_id, book[0]))
+            bookIsValid = True
+            print("\"{}\"The Book was added to wishlist\n".format(book[1]))
+    # Send Error if an invalid book was selected
+    if not bookIsValid:
+        print("Invalid Book ID. Please try again....\n")
+        return
 
 """Adds the book from the wishlist"""
 def add_book_to_wishlist(_cursor, _user_id, _book_id):
